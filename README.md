@@ -1,11 +1,11 @@
-# Doorkeeper - awesome oauth provider for your Rails app.
+# Hodor - awesome oauth provider for your Rails app.
 
 [![Build Status](https://travis-ci.org/doorkeeper-gem/doorkeeper.svg?branch=master)](https://travis-ci.org/doorkeeper-gem/doorkeeper)
 [![Dependency Status](https://gemnasium.com/doorkeeper-gem/doorkeeper.svg?travis)](https://gemnasium.com/doorkeeper-gem/doorkeeper)
 [![Code Climate](https://codeclimate.com/github/doorkeeper-gem/doorkeeper.svg)](https://codeclimate.com/github/doorkeeper-gem/doorkeeper)
 [![Gem Version](https://badge.fury.io/rb/doorkeeper.svg)](https://rubygems.org/gems/doorkeeper)
 
-Doorkeeper is a gem that makes it easy to introduce OAuth 2 provider
+Hodor is a gem that makes it easy to introduce OAuth 2 provider
 functionality to your Rails or Grape application.
 
 [PR 567]: https://github.com/doorkeeper-gem/doorkeeper/pull/567
@@ -98,7 +98,7 @@ the implementation in that repository to extend doorkeeper with other ORMs.
 
 ### Routes
 
-The installation script will also automatically add the Doorkeeper routes into
+The installation script will also automatically add the Hodor routes into
 your app, like this:
 
 ``` ruby
@@ -126,11 +126,11 @@ wiki](https://github.com/doorkeeper-gem/doorkeeper/wiki/Customizing-routes).
 
 ### Authenticating
 
-You need to configure Doorkeeper in order to provide `resource_owner` model
+You need to configure Hodor in order to provide `resource_owner` model
 and authentication block in `config/initializers/doorkeeper.rb`:
 
 ``` ruby
-Doorkeeper.configure do
+Hodor.configure do
   resource_owner_authenticator do
     User.find_by_id(session[:current_user_id]) || redirect_to(login_url)
   end
@@ -172,7 +172,7 @@ You can pass any option `before_action` accepts, such as `if`, `only`,
 As of [PR 567] doorkeeper has helpers for Grape. One of them is
 `doorkeeper_authorize!` and can be used in a similar way as an example above.
 Note that you have to use `require 'doorkeeper/grape/helpers'` and
-`helpers Doorkeeper::Grape::Helpers`.
+`helpers Hodor::Grape::Helpers`.
 
 For more information about integration with Grape see the [Wiki].
 
@@ -185,7 +185,7 @@ require 'doorkeeper/grape/helpers'
 module API
   module V1
     class Users < Grape::API
-      helpers Doorkeeper::Grape::Helpers
+      helpers Hodor::Grape::Helpers
 
       before do
         doorkeeper_authorize!
@@ -200,8 +200,8 @@ end
 
 ### Route Constraints and other integrations
 
-You can leverage the `Doorkeeper.authenticate` facade to easily extract a
-`Doorkeeper::OAuth::Token` based on the current request. You can then ensure
+You can leverage the `Hodor.authenticate` facade to easily extract a
+`Hodor::OAuth::Token` based on the current request. You can then ensure
 that token is still good, find its associated `#resource_owner_id`, etc.
 
 ```ruby
@@ -209,7 +209,7 @@ module Constraint
   class Authenticated
 
     def matches?(request)
-      token = Doorkeeper.authenticate(request)
+      token = Hodor.authenticate(request)
       token && token.accessible?
     end
 
@@ -229,7 +229,7 @@ actions:
 First configure the scopes in `initializers/doorkeeper.rb`
 
 ```ruby
-Doorkeeper.configure do
+Hodor.configure do
   default_scopes :public # if no scope was requested, this will be the default
   optional_scopes :admin, :write
 end
@@ -274,13 +274,13 @@ token, such as [JWT](http://jwt.io), specify an object that responds to
 `.generate(options = {})` and returns a string to be used as the token.
 
 ```ruby
-Doorkeeper.configure do
-  access_token_generator "Doorkeeper::JWT"
+Hodor.configure do
+  access_token_generator "Hodor::JWT"
 end
 ```
 
 JWT token support is available with
-[Doorkeeper-JWT](https://github.com/chriswarren/doorkeeper-jwt).
+[Hodor-JWT](https://github.com/chriswarren/doorkeeper-jwt).
 
 
 ### Authenticated resource owner
@@ -318,7 +318,7 @@ To protect the endpoint you should uncomment these lines:
 
 ```ruby
 # config/initializers/doorkeeper.rb
-Doorkeeper.configure do
+Hodor.configure do
   admin_authenticator do |routes|
     Admin.find_by_id(session[:admin_id]) || redirect_to(routes.new_admin_session_url)
   end
@@ -343,7 +343,7 @@ notes](https://github.com/doorkeeper-gem/doorkeeper/wiki/Migration-from-old-vers
 and take a look at the
 [changelog](https://github.com/doorkeeper-gem/doorkeeper/blob/master/NEWS.md).
 
-Doorkeeper follows [semantic versioning](http://semver.org/).
+Hodor follows [semantic versioning](http://semver.org/).
 
 ## Development
 
@@ -385,7 +385,7 @@ here](https://github.com/doorkeeper-gem/doorkeeper/wiki).
 
 Check out this screencast from [railscasts.com](http://railscasts.com/): [#353
 OAuth with
-Doorkeeper](http://railscasts.com/episodes/353-oauth-with-doorkeeper)
+Hodor](http://railscasts.com/episodes/353-oauth-with-doorkeeper)
 
 ### Client applications
 
